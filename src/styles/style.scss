@@ -1,0 +1,100 @@
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
+.title {
+  text-align: center;
+  margin-top: 3rem;
+  font-size: 30px;
+  margin-bottom: 4rem;
+}
+
+.game-board {
+  margin-top: 3rem;
+  display: grid;
+  grid-template-columns: 100px 100px 100px;
+  grid-template-rows: 100px 100px 100px;
+  justify-content: center;
+}
+
+.square {
+  font-size: 54px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid black;
+  border-right: 3px solid black;
+}
+
+.square:nth-child(3n) {
+  border-right: none;
+}
+
+.square:nth-last-child(-n + 3) {
+  border-bottom: none;
+}
+
+.status {
+  text-align: center;
+  margin-top: 6rem;
+  border: 2px solid black;
+  width: 25%;
+  margin: auto;
+  font-size: 20px;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.reset {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  button {
+    font-size: 20px;
+    background: none;
+    outline: 2px solid black;
+    border-radius: 4px;
+    padding: 0.5rem;
+    border: none;
+  }
+  button:hover {
+    background: lightgrey;
+    cursor: pointer;
+  }
+}
+
+.scores {
+  margin-top: 3rem;
+  text-align: center;
+  .xScore {
+    display: inline-block;
+    padding: 2rem;
+  }
+  .oScore {
+    display: inline-block;
+    padding: 2rem;
+  }
+}
+
+.player-select {
+  text-align: center;
+  margin-top: 6rem;
+  border: 2px solid black;
+  width: 20%;
+  height: 50px;
+  margin: auto;
+  font-size: 20px;
+  padding: 1rem;
+  border-radius: 4px;
+  button {
+    margin: 5px;
+    border: none;
+    outline: 2px solid black;
+    font-size: 20px;
+    border-radius: 4px;
+    background: none;
+  }
+  button:hover {
+    background: lightgrey;
+    cursor: pointer;
+  }
+}
