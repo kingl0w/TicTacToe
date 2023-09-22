@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './styles/style.scss';
 import { useEffect } from 'react';
+import { findBestMove, minimax, evaluate } from './ai';
 
 function Square({ value, onSquareClick }) {
   return (
@@ -25,16 +26,12 @@ function App() {
   }, [squares]);
 
   function handleClick(i) {
-    if (!player || calculateWinner() || squares[i]) {
+    if (!player || squares[i] || gameOver) {
       return; //Do nothing if player not selected, square already filled, or there is a winner
     }
 
     const nextSquares = squares.slice();
     nextSquares[i] = player; //This assigns a player's move to a selected square
-
-    const isXNext = !xIsNext; //Store the value of xIsNext before updating
-    setSquares(nextSquares);
-    setXIsNext(isXNext);
 
     const winner = calculateWinner(); //Check for winner after the player's move
 
@@ -43,23 +40,11 @@ function App() {
       setGameOver(true);
     } else {
       //The opponent's turn
-      const emptySquares = nextSquares.reduce(
-        (acc, square, index) => (square === null ? [...acc, index] : acc),
-        []
-      );
-
-      if (emptySquares.length > 0) {
-        //This randomly selects an empty square for the opponent's move
-        //Delay the opponent's move using setTimeout
-        setTimeout(() => {
-          const randomIndex = Math.floor(Math.random() * emptySquares.length);
-          const opponentMove = emptySquares[randomIndex];
-
-          nextSquares[opponentMove] = player === 'X' ? 'O' : 'X';
-
-          setSquares(nextSquares);
-          setXIsNext((prevState) => !prevState); // This uses a functional update to get the most recent value
-        }, 2000);
+      if (!gameOver && player === 'X') {
+        const aiMove = findBestMove(nextSquares); //AI logic to find best move
+        nextSquares[aiMove] = 'O'; //Assigns the next AI move
+        setSquares(nextSquares);
+        setXIsNext(!xIsNext); //toggle players turn
       }
     }
   }
