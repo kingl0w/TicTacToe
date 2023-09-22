@@ -1,17 +1,13 @@
 import { useState } from 'react';
 import './styles/style.scss';
 import { useEffect } from 'react';
-import { findBestMove, minimax, evaluate } from './ai';
-
-function Square({ value, onSquareClick }) {
-  return (
-    <button
-      className='square'
-      onClick={onSquareClick}>
-      {value}
-    </button>
-  );
-}
+import {
+  findBestMoveEasy,
+  findBestMoveMedium,
+  findBestMoveHard,
+  emptySquares,
+  calculateWinner,
+} from './ai';
 
 function App() {
   const [xIsNext, setXIsNext] = useState(true);
@@ -20,10 +16,21 @@ function App() {
   const [player, setPlayer] = useState(null);
   const [showStatus, setShowStatus] = useState(false);
   const [gameOver, setGameOver] = useState(false);
+  const [difficulty, setDifficulty] = useState('medium');
 
   useEffect(() => {
     updateScores();
   }, [squares]);
+
+  function Square({ value, onSquareClick }) {
+    return (
+      <button
+        className='square'
+        onClick={onSquareClick}>
+        {value}
+      </button>
+    );
+  }
 
   function handleClick(i) {
     if (!player || squares[i] || gameOver) {
@@ -34,6 +41,7 @@ function App() {
     nextSquares[i] = player; //This assigns a player's move to a selected square
 
     const winner = calculateWinner(); //Check for winner after the player's move
+    const empty = emptySquares(nextSquares);
 
     if (winner) {
       //Set gameover if there is a winner
@@ -41,13 +49,27 @@ function App() {
     } else {
       //The opponent's turn
       if (!gameOver && player === 'X') {
-        const aiMove = findBestMove(nextSquares); //AI logic to find best move
+        let aiMove;
+        if (difficulty === 'easy') {
+          aiMove = findBestMoveEasy(nextSquares); //AI logic for easy difficulty
+        } else if (difficulty === 'medium') {
+          aiMove = findBestMoveMedium(nextSquares); //AI logic for medium difficulty
+        } else if (difficulty === 'hard') {
+          aiMove = findBestMoveHard(nextSquares); //AI logic for hard difficulty
+        }
+
         nextSquares[aiMove] = 'O'; //Assigns the next AI move
         setSquares(nextSquares);
-        setXIsNext(!xIsNext); //toggle players turn
+        setXIsNext(!xIsNext); //Toggle players' turns
       }
     }
   }
+
+  //handle difficulty section
+  const handleDifficultySelect = (selectedDifficulty) => {
+    setDifficulty(selectedDifficulty);
+  };
+
   //Update scores function
   const updateScores = () => {
     const winner = calculateWinner();
@@ -141,6 +163,31 @@ function App() {
           </button>
         </div>
       )}
+
+      <div className='difficulty-select'>
+        <button
+          onClick={() => handleDifficultySelect('easy')}
+          className={`difficulty-button ${
+            difficulty === 'easy' ? 'active' : ''
+          }`}>
+          Easy
+        </button>
+        <button
+          onClick={() => handleDifficultySelect('medium')}
+          className={`difficulty-button ${
+            difficulty === 'medium' ? 'active' : ''
+          }`}>
+          Medium
+        </button>
+        <button
+          onClick={() => handleDifficultySelect('hard')}
+          className={`difficulty-button ${
+            difficulty === 'hard' ? 'active' : ''
+          }`}>
+          Hard
+        </button>
+      </div>
+
       <div className='game-board'>
         <Square
           value={squares[0]}
