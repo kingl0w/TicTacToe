@@ -1,0 +1,255 @@
+body {
+  font-family: 'Patrick Hand', 'Comic Sans MS', 'Chalkboard SE', cursive;
+  background-color: #3a3a3a; /* Dark Charcoal/Chalkboard background */
+  color: #e0e0e0; /* Light Grey "Chalk" color for text */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.game {
+  text-align: center;
+  width: 100%;
+}
+
+h1 {
+  font-family: 'Indie Flower', 'Patrick Hand', cursive;
+  font-size: 3.5rem;
+  color: #82d9ff; /* Bright Chalk Blue */
+  margin-bottom: 40px;
+  text-shadow: 1px 1px 0px #222, 2px 2px 0px rgba(0,0,0,0.3); /* Subtle depth */
+}
+
+.game-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Board Styles - "Dark Paper / Chalkboard" look */
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  gap: 12px;
+  background-color: #4f4f4f; /* Slightly lighter charcoal for board base */
+  padding: 15px;
+  border-radius: 5px 25px 5px 15px; /* Irregular, playful border radius */
+  box-shadow: 3px 3px 0px #2b2b2b, 6px 6px 0px rgba(0,0,0,0.2); /* "Layered paper" shadow */
+  border: 2px dashed #7a7a7a; /* Dashed "chalk" or "drawn" border */
+}
+
+.square {
+  width: 100px;
+  height: 100px;
+  background-color: #424242; /* Darker square color, distinct from board base */
+  border: 2px solid #6e6e6e; /* Medium Grey, "chalk line" border */
+  border-radius: 8px 3px 10px 3px; /* Slightly irregular square rounding */
+  font-size: 4.5rem;
+  font-weight: normal;
+  cursor: pointer;
+  color: #e0e0e0; /* Default chalk color */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.15s ease-out;
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.2); /* Slight inner shadow */
+}
+
+.square:hover:not(:disabled) {
+  background-color: #535353; /* Slightly lighter on hover */
+  transform: rotate(-1deg) scale(1.03);
+  box-shadow: 1px 1px 3px #222;
+}
+
+.square:disabled {
+  cursor: not-allowed;
+  opacity: 0.9;
+}
+
+.square.x-symbol {
+  color: #ffb3ba; /* Light Chalk Pink/Red */
+  transform: rotate(-2deg);
+}
+
+.square.o-symbol {
+  color: #bae1ff; /* Light Chalk Blue */
+  transform: rotate(2deg);
+}
+
+.square.winning-square {
+  background-color: #5a4a3a !important; /* Darker, muted "highlight" for dark theme */
+  color: #ffd700 !important; /* Gold "chalk" for emphasis on winning symbol */
+  border-color: #8c7853 !important;
+  animation: pulse-win-dark-doodle 0.8s infinite alternate;
+  transform: scale(1.1) rotate(0deg) !important; /* Override tilts */
+}
+
+@keyframes pulse-win-dark-doodle {
+  from { box-shadow: 0 0 0px #ffd70066, inset 0 0 5px rgba(0,0,0,0.1); }
+  to { box-shadow: 0 0 15px #ffd70099, inset 0 0 5px rgba(0,0,0,0.1); }
+}
+
+/* Game Info & Actions - "Dark Notepad" look */
+.game-info {
+  background-color: #4f4f4f; /* Matches board base */
+  padding: 20px;
+  border-radius: 15px 5px 20px 5px;
+  max-width: 320px;
+  width: 90%;
+  box-shadow: 2px 2px 0px #2b2b2b, 4px 4px 0px rgba(0,0,0,0.15);
+  border: 2px dashed #7a7a7a;
+  text-align: center;
+}
+
+.status {
+  font-family: 'Indie Flower', 'Patrick Hand', cursive;
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  color: #d1a4ff; /* Light Chalk Purple */
+  min-height: 1.5em;
+}
+
+.score-board {
+  margin-bottom: 15px;
+  text-align: center;
+  background-color: #424242; /* Matches square background */
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: 1px solid #5f5f5f; /* Subtle border */
+}
+.score-board h3 {
+  font-family: 'Indie Flower', cursive;
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #a0ffe0; /* Light Chalk Mint Green */
+  font-size: 1.3rem;
+}
+.score-board p {
+  margin: 4px 0;
+  font-size: 1rem;
+  color: #c0c0c0; /* Lighter grey for text */
+}
+.score-board p span.player-x { color: #ffb3ba; font-weight: bold; }
+.score-board p span.player-o { color: #bae1ff; font-weight: bold; }
+
+.game-info > p { /* Difficulty text */
+  font-size: 0.9rem;
+  color: #a0a0a0; /* Muted light grey */
+  margin-bottom: 15px;
+}
+
+/* Buttons - "Chalk on Board Button" look */
+.game-actions button, .settings-screen button {
+  font-family: 'Patrick Hand', cursive;
+  background-color: #6a7d8e; /* Dusky Blue-Grey Button */
+  color: #f0f0f0; /* Light chalk text on button */
+  border: 2px solid #f0f0f0; /* "Chalk" border */
+  padding: 10px 18px;
+  margin: 8px 5px;
+  border-radius: 20px 5px 20px 5px;
+  font-size: 1.1rem;
+  font-weight: normal;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 2px 2px 0px #4a5a6a; /* Darker shadow for button */
+  text-transform: capitalize;
+}
+
+.game-actions button:hover, .settings-screen button:hover {
+  background-color: #7c8fa1; /* Lighter dusky blue on hover */
+  transform: translateY(-1px) translateX(1px) rotate(-1deg);
+  box-shadow: 1px 1px 0px #4a5a6a;
+}
+.game-actions button:active, .settings-screen button:active {
+  transform: translateY(1px) translateX(-1px);
+  box-shadow: none;
+}
+
+
+/* Settings Screen */
+.settings-screen {
+  background-color: #4f4f4f; /* Matches other panels */
+  padding: 30px;
+  border-radius: 5px 30px 5px 20px;
+  box-shadow: 3px 3px 0px #2b2b2b, 6px 6px 0px rgba(0,0,0,0.2);
+  border: 2px dashed #7a7a7a;
+  max-width: 380px;
+  margin: auto;
+}
+
+.settings-screen h2 {
+  font-family: 'Indie Flower', cursive;
+  color: #82d9ff; /* Bright Chalk Blue */
+  margin-bottom: 25px;
+  font-size: 2.2rem;
+}
+
+.settings-screen div {
+  margin-bottom: 20px;
+}
+
+.settings-screen label {
+  display: block;
+  margin-bottom: 8px;
+  color: #e0e0e0; /* Light chalk color */
+  font-size: 1.2rem;
+}
+
+.settings-screen select {
+  font-family: 'Patrick Hand', cursive;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 5px;
+  border: 2px solid #6e6e6e; /* "Chalk line" border */
+  background-color: #424242; /* Matches square background */
+  color: #e0e0e0; /* Light chalk text */
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+.settings-screen select:focus {
+  outline: none;
+  border-color: #82d9ff; /* Blue chalk focus */
+  box-shadow: 0 0 5px #82d9ff66;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+  .board {
+    grid-template-columns: repeat(3, 80px);
+    grid-template-rows: repeat(3, 80px);
+    gap: 10px;
+    padding: 10px;
+  }
+  .square {
+    width: 80px;
+    height: 80px;
+    font-size: 3.5rem;
+  }
+  .game-info {
+    max-width: 90%;
+    padding: 15px;
+  }
+  .status { font-size: 1.5rem; }
+  .score-board h3 { font-size: 1.1rem; }
+  .score-board p { font-size: 0.9rem; }
+
+  .game-actions button, .settings-screen button {
+    padding: 8px 15px;
+    font-size: 1rem;
+  }
+  .settings-screen h2 { font-size: 1.8rem; }
+  .settings-screen label { font-size: 1.1rem; }
+  .settings-screen select { font-size: 1rem; }
+}
